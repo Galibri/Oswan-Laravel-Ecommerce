@@ -1,1 +1,1 @@
-Hello, who are you? user??
+@extends('layouts.admin')
