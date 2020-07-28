@@ -16,7 +16,7 @@ class LoginController extends Controller
 
     public function login_page()
     {
-        return view('auth.login');
+        return view('auth.admin-login');
     }
 
     public function process_login(Request $request)
@@ -28,10 +28,15 @@ class LoginController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
+        $remember = false;
+        if ($request->has('remember')) {
+            $remember = true;
+        }
+
+        if (Auth::attempt($credentials, $remember)) {
             return redirect()->route('admin.dashboard')->with('success', __('Login successful'));
         }
 
-        return redirect()->back()->with('error', __('Something went wrong. Please try again'));
+        return redirect()->back()->with('error', __('Something went wrong. Please try again'))->withInput();
     }
 }

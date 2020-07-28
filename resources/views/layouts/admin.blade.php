@@ -8,9 +8,11 @@
 
     <title>@yield('meta-title', __('Dashboard'))</title>
 
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/backend/plugins/summernote/summernote-bs4.css') }}">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('assets/backend/plugins/fontawesome-free/css/all.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('assets/backend/css/adminlte.min.css') }}">
 </head>
@@ -104,20 +106,9 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <div class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-md-12">
-                            <h1 class="m-0 text-dark">@yield('title', __('Dashboard'))</h1>
-                        </div><!-- /.col -->
-                    </div><!-- /.row -->
-                </div><!-- /.container-fluid -->
-            </div>
-            <!-- /.content-header -->
 
             <!-- Main content -->
-            <div class="content">
+            <div class="content pt-3">
                 <div class="container-fluid">
                     @yield('content')
                 </div><!-- /.container-fluid -->
@@ -140,8 +131,44 @@
     <!-- ./wrapper -->
 
     <script src="{{ asset('js/app.js') }}"></script>
-    <!-- AdminLTE App -->
+    <script src="{{ asset('assets/backend/plugins/summernote/summernote-bs4.min.js') }}"></script>
     <script src="{{ asset('assets/backend/js/adminlte.min.js') }}"></script>
+    <script>
+        (function($) {
+        $(document).ready(function() {
+            // Custom summernote config
+            $('.textarea').summernote({
+                height: 300,
+                toolbar: [
+                    ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['view', ['fullscreen', 'codeview']],
+                ],
+                styleTags: [
+                    'p', { title: 'Blockquote', tag: 'blockquote', className: 'blockquote', value: 'blockquote' }, 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
+                ],
+             })
+
+             // Bootstrap custom file input field
+             bsCustomFileInput.init();
+
+             // Sweetalert 2 configuration
+             @if(session()->has('success'))
+            toaster('success', "{{ session()->get('success') }}")
+            @endif
+            @if(session()->has('warning'))
+            toaster('warning', "{{ session()->get('warning') }}")
+            @endif
+            @if(session()->has('error'))
+            toaster('error', "{{ session()->get('error') }}")
+            @endif
+            })
+    })(jQuery)
+    </script>
     @yield('scripts')
 </body>
 
