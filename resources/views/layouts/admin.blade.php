@@ -133,6 +133,7 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('assets/backend/plugins/summernote/summernote-bs4.min.js') }}"></script>
     <script src="{{ asset('assets/backend/js/adminlte.min.js') }}"></script>
+    <script src="{{ asset('assets/backend/plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
     <script>
         (function($) {
         $(document).ready(function() {
@@ -151,13 +152,13 @@
                 styleTags: [
                     'p', { title: 'Blockquote', tag: 'blockquote', className: 'blockquote', value: 'blockquote' }, 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
                 ],
-             })
+            })
 
-             // Bootstrap custom file input field
-             bsCustomFileInput.init();
+            // Bootstrap custom file input field
+            bsCustomFileInput.init();
 
              // Sweetalert 2 configuration
-             @if(session()->has('success'))
+            @if(session()->has('success'))
             toaster('success', "{{ session()->get('success') }}")
             @endif
             @if(session()->has('warning'))
@@ -166,7 +167,7 @@
             @if(session()->has('error'))
             toaster('error', "{{ session()->get('error') }}")
             @endif
-            })
+        })
     })(jQuery)
     </script>
     @yield('scripts')
