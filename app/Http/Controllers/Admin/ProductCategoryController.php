@@ -85,9 +85,9 @@ class ProductCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(ProductCategory $productCategory)
     {
-        //
+        return view('admin.product-category.show', compact('productCategory'));
     }
 
     /**
@@ -168,9 +168,69 @@ class ProductCategoryController extends Controller
     public function destroy(ProductCategory $productCategory)
     {
         if ($productCategory->delete()) {
-            return redirect()->route('admin.product-category.index')->with('success', __('Product category deleted.'));
+            return redirect()->back()->with('success', __('Product category deleted.'));
         }
 
         return redirect()->back()->with('error', __('Please try again.'));
+    }
+
+    public function restore($id)
+    {
+        $productCategory = ProductCategory::onlyTrashed()->find($id);
+        if ($productCategory) {
+            if ($productCategory->restore()) {
+                return redirect()->back()->with('success', __('Product category restored.'));
+            }
+            return redirect()->back()->with('error', __('Please try again.'));
+        }
+        return redirect()->back()->with('error', __('No product to restore.'));
+    }
+
+    public function force_delete($id)
+    {
+        $productCategory = ProductCategory::onlyTrashed()->find($id);
+        if ($productCategory) {
+            if ($productCategory->thumbnail) {
+                File::delete($productCategory->thumbnail);
+            }
+
+            if ($productCategory->forceDelete()) {
+                return redirect()->back()->with('success', __('Product category permanently deleted.'));
+            }
+            return redirect()->back()->with('error', __('Please try again.'));
+        }
+
+        return redirect()->back()->with('error', __('No product to delete.'));
+    }
+
+    public function bulk_delete(Request $request)
+    {
+        $cat_ids = $request->input('cat_ids');
+        foreach ($cat_ids as $id) {
+            $productCategory = ProductCategory::find($id);
+            if ($productCategory) {
+                $productCategory->delete();
+            }
+        }
+        return response()->json([
+            'message' => 'success'
+        ]);
+    }
+
+    public function bulk_force_delete(Request $request)
+    {
+        $cat_ids = $request->input('cat_ids');
+        foreach ($cat_ids as $id) {
+            $productCategory = ProductCategory::withTrashed()->find($id);
+            if ($productCategory) {
+                if ($productCategory->thumbnail) {
+                    File::delete($productCategory->thumbnail);
+                }
+                $productCategory->forceDelete();
+            }
+        }
+        return response()->json([
+            'message' => 'success'
+        ]);
     }
 }

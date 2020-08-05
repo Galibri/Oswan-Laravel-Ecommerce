@@ -25,12 +25,10 @@
                     <span class="text-danger">{{ $message }}</span>
                     @enderror
 
-                    @if($productCategory->thumbnail)
                     <div class="form-group">
-                        <img height="50" src="{{ asset($productCategory->thumbnail) }}"
+                        <img height="50" src="{{ asset($productCategory->default_thumbnail) }}"
                             alt="{{ $productCategory->name }}">
                     </div>
-                    @endif
                     <div class="form-group">
                         <label for="exampleInputFile">Thumbnail</label>
                         <div class="input-group">

@@ -31,5 +31,9 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::get('/dashboard', 'DashboardController@index');
 
         Route::resource('product-category', 'ProductCategoryController');
+        Route::post('product-category/{id}/restore', 'ProductCategoryController@restore')->name('product-category.restore');
+        Route::post('product-category/{id}/force-delete', 'ProductCategoryController@force_delete')->name('product-category.force_delete');
+        Route::post('product-category/bulk-delete', 'ProductCategoryController@bulk_delete')->name('product-category.bulk_delete');
+        Route::post('product-category/bulk-force-delete', 'ProductCategoryController@bulk_force_delete')->name('product-category.bulk_force_delete');
     });
 });
