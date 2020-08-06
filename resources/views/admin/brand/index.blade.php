@@ -1,28 +1,28 @@
 @extends('layouts.admin')
 
-@section('meta-title', __('Product Categories'))
+@section('meta-title', __('Product Brands'))
 
 @section('content')
 <div class="row">
     <div class="col-md-12">
         <div class="page-title bg-dark text-light p-3 mb-3 rounded">
-            <h5 class="d-inline-block text-uppercase mb-0">{{ __('All product categories') }}</h5>
-            <a href="{{ route('admin.product-category.create') }}"
+            <h5 class="d-inline-block text-uppercase mb-0">{{ __('All brands') }}</h5>
+            <a href="{{ route('admin.brand.create') }}"
                 class="btn btn-outline-info float-right btn-sm d-inline-block">{{ __('Add new') }}</a>
         </div>
         <div class="page-links">
             <div class="btn-group mb-3">
-                <a href="{{ route('admin.product-category.index') . '?type=all' }}"
+                <a href="{{ route('admin.brand.index') . '?type=all' }}"
                     class="btn btn-sm btn-outline-dark {{ request()->get('type') == 'all' ? 'active' : ''  }}">{{ __('All') }}</a>
-                <a href="{{ route('admin.product-category.index') }}"
+                <a href="{{ route('admin.brand.index') }}"
                     class="btn btn-sm btn-outline-dark {{ request()->has('type') ? '' : 'active'  }}">{{ __('Published') }}</a>
-                <a href="{{ route('admin.product-category.index') . '?type=trash' }}"
+                <a href="{{ route('admin.brand.index') . '?type=trash' }}"
                     class="btn btn-sm btn-outline-dark {{ request()->get('type') == 'trash' ? 'active' : ''  }}">{{ __('Trashed') }}</a>
             </div>
         </div>
         <div class="card card-dark">
             <div class="card-body">
-                @if(count($productCategories) > 0)
+                @if(count($brands) > 0)
                 <div class="row">
                     <div class="col">
                         <div class="bulk-action-area mb-3">
@@ -38,11 +38,11 @@
                         </div>
                     </div>
                     <div class="col text-right">
-                        <a href="{{ route('admin.product-category.export_to_excel') }}"
+                        <a href="{{ route('admin.brand.export_to_excel') }}"
                             class="btn btn-outline-primary">{{ __('Excel') }}</a>
-                        <a href="{{ route('admin.product-category.export_to_csv') }}"
+                        <a href="{{ route('admin.brand.export_to_csv') }}"
                             class="btn btn-outline-primary">{{ __('CSV') }}</a>
-                        <a href="{{ route('admin.product-category.export_to_pdf') }}"
+                        <a href="{{ route('admin.brand.export_to_pdf') }}"
                             class="btn btn-outline-primary">{{ __('PDF') }}</a>
                     </div>
                 </div>
@@ -58,39 +58,38 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($productCategories as $productCategory)
+                        @foreach($brands as $brand)
                         <tr>
-                            <th><input type="checkbox" class="bulk-item-id" data-id="{{ $productCategory->id }}"></th>
+                            <th><input type="checkbox" class="bulk-item-id" data-id="{{ $brand->id }}"></th>
                             <td>
-                                <img height="40" src="{{ asset($productCategory->default_thumbnail) }}"
-                                    alt="{{ $productCategory->name }}">
+                                <img height="40" src="{{ asset($brand->default_thumbnail) }}" alt="{{ $brand->name }}">
                             </td>
-                            <td>{{ $productCategory->name }}</td>
-                            <td>{{ $productCategory->slug }}</td>
+                            <td>{{ $brand->name }}</td>
+                            <td>{{ $brand->slug }}</td>
                             <td><span
-                                    class="badge badge-@if($productCategory->status == true){{ 'success' }} @else{{ 'warning' }} @endif">{{ $productCategory->status_text }}</span>
+                                    class="badge badge-@if($brand->status == true){{ 'success' }} @else{{ 'warning' }} @endif">{{ $brand->status_text }}</span>
                             </td>
                             <td>
-                                @if($productCategory->deleted_at != null)
-                                <form action="{{ route('admin.product-category.restore', $productCategory->id ) }}"
-                                    class="d-inline-block" method="POST">
+                                @if($brand->deleted_at != null)
+                                <form action="{{ route('admin.brand.restore', $brand->id ) }}" class="d-inline-block"
+                                    method="POST">
                                     @csrf
                                     <button type="submit" class="btn btn-outline-danger btn-sm"><i
                                             class="fas fa-recycle"></i></button>
                                 </form>
-                                <form action="{{ route('admin.product-category.force_delete', $productCategory->id) }}"
+                                <form action="{{ route('admin.brand.force_delete', $brand->id) }}"
                                     class="d-inline-block" method="POST">
                                     @csrf
                                     <button type="submit" class="btn btn-outline-danger btn-sm"
                                         title="{{ __('Permanently Delete') }}"><i class="fas fa-trash"></i></button>
                                 </form>
                                 @else
-                                <a href="{{ route('admin.product-category.show', $productCategory->id) }}"
+                                <a href="{{ route('admin.brand.show', $brand->id) }}"
                                     class="btn btn-outline-success btn-sm"><i class="fas fa-eye"></i></a>
-                                <a href="{{ route('admin.product-category.edit', $productCategory->id) }}"
+                                <a href="{{ route('admin.brand.edit', $brand->id) }}"
                                     class="btn btn-outline-warning btn-sm"><i class="fas fa-edit"></i></a>
-                                <form action="{{ route('admin.product-category.destroy', $productCategory->id) }}"
-                                    class="d-inline-block" method="POST">
+                                <form action="{{ route('admin.brand.destroy', $brand->id) }}" class="d-inline-block"
+                                    method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-outline-danger btn-sm"><i
@@ -103,7 +102,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $productCategories->links() }}
+                {{ $brands->links() }}
                 @else
                 <div class="no-product-found">
                     <h3>{{ __('No product found.') }}</h3>
@@ -156,7 +155,7 @@
                 if($('#dropdown-action').val() == 'bulk-delete') {
                     
                     if(item_ids.length > 0) {
-                        axios.post("{{ route('admin.product-category.bulk_delete') }}", {
+                        axios.post("{{ route('admin.brand.bulk_delete') }}", {
                             item_ids
                         })
                         .then(response => {
@@ -170,7 +169,7 @@
                 } else if($('#dropdown-action').val() == 'bulk-force-delete') {
                     
                     if(item_ids.length > 0) {
-                        axios.post("{{ route('admin.product-category.bulk_force_delete') }}", {
+                        axios.post("{{ route('admin.brand.bulk_force_delete') }}", {
                             item_ids
                         })
                         .then(response => {
@@ -184,7 +183,7 @@
                 } else if($('#dropdown-action').val() == 'bulk-restore') {
                     
                     if(item_ids.length > 0) {
-                        axios.post("{{ route('admin.product-category.bulk_restore') }}", {
+                        axios.post("{{ route('admin.brand.bulk_restore') }}", {
                             item_ids
                         })
                         .then(response => {

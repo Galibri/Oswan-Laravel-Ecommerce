@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ProductCategoryExport;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\ProductCategory;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductCategoryController extends Controller
 {
@@ -17,7 +20,6 @@ class ProductCategoryController extends Controller
      */
     public function index()
     {
-
         if (request()->has('type') && request()->input('type') == 'trash') {
             $productCategories = ProductCategory::onlyTrashed()->orderBy('created_at', 'desc')->paginate(8);
         } elseif (request()->has('type') && request()->input('type') == 'all') {
@@ -128,12 +130,6 @@ class ProductCategoryController extends Controller
                 break;
             }
 
-            // isDirty method to check if the model was changed after loaded
-            // if ($productCategory->isDirty('name')) {
-            //     $uniqueSlug = $productCategory->slug;
-            //     break;
-            // }
-
             $uniqueSlug = Str::slug($request->input('name')) . '-' . $next;
 
             $next++;
@@ -205,8 +201,8 @@ class ProductCategoryController extends Controller
 
     public function bulk_delete(Request $request)
     {
-        $cat_ids = $request->input('cat_ids');
-        foreach ($cat_ids as $id) {
+        $item_ids = $request->input('item_ids');
+        foreach ($item_ids as $id) {
             $productCategory = ProductCategory::find($id);
             if ($productCategory) {
                 $productCategory->delete();
@@ -219,8 +215,8 @@ class ProductCategoryController extends Controller
 
     public function bulk_force_delete(Request $request)
     {
-        $cat_ids = $request->input('cat_ids');
-        foreach ($cat_ids as $id) {
+        $item_ids = $request->input('item_ids');
+        foreach ($item_ids as $id) {
             $productCategory = ProductCategory::withTrashed()->find($id);
             if ($productCategory) {
                 if ($productCategory->thumbnail) {
@@ -232,5 +228,39 @@ class ProductCategoryController extends Controller
         return response()->json([
             'message' => 'success'
         ]);
+    }
+
+    public function bulk_restore(Request $request)
+    {
+        $item_ids = $request->input('item_ids');
+        foreach ($item_ids as $id) {
+            $productCategory = ProductCategory::onlyTrashed()->find($id);
+            if ($productCategory) {
+                $productCategory->restore();
+            }
+        }
+        return response()->json([
+            'message' => 'success'
+        ]);
+    }
+
+    public function export_to_excel()
+    {
+        return Excel::download(new ProductCategoryExport(), 'product-category.xlsx');
+    }
+
+    public function export_to_csv()
+    {
+        return Excel::download(new ProductCategoryExport(), 'product-category.csv', \Maatwebsite\Excel\Excel::CSV, [
+            'Content-Type' => 'text/csv'
+        ]);
+
+    }
+
+    public function export_to_pdf()
+    {
+        $productCategories = ProductCategory::latest()->get();
+        $pdf               = PDF::loadView('admin.product-category.pdf', ['productCategories' => $productCategories]);
+        return $pdf->download('product-category.pdf');
     }
 }

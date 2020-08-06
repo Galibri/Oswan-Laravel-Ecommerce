@@ -10928,3 +10928,7 @@ a.text-dark:focus {
   }
 }
 
+.bulk-select {
+  max-width: 150px;
+}
+

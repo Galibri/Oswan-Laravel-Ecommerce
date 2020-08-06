@@ -97,6 +97,32 @@
                             </ul>
                         </li>
 
+                        <li class="nav-item has-treeview {{ request()->routeIs('admin.brand.*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link {{ request()->routeIs('admin.brand.*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-gift"></i>
+                                <p>
+                                    Brand
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.brand.index') }}"
+                                        class="nav-link {{ request()->routeIs('admin.brand.index') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All Brands</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.brand.create') }}"
+                                        class="nav-link {{ request()->routeIs('admin.brand.create') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add New</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
