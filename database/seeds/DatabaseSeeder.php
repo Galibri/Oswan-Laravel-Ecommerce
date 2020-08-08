@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Admin\Brand;
+use App\Models\Admin\Product;
 use App\Models\Admin\ProductCategory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
@@ -19,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         factory(ProductCategory::class, 15)->create();
         factory(Brand::class, 15)->create();
+        factory(Product::class, 40)->create();
     }
 }

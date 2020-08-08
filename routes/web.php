@@ -30,6 +30,7 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::get('/', 'DashboardController@index')->name('dashboard');
         Route::get('/dashboard', 'DashboardController@index');
 
+        // Product Category Routes
         Route::get('product-category/export-to-excel', 'ProductCategoryController@export_to_excel')->name('product-category.export_to_excel');
         Route::get('product-category/export-to-csv', 'ProductCategoryController@export_to_csv')->name('product-category.export_to_csv');
         Route::get('product-category/export-to-pdf', 'ProductCategoryController@export_to_pdf')->name('product-category.export_to_pdf');
@@ -43,6 +44,7 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::post('product-category/bulk-inactive', 'ProductCategoryController@bulk_inactive')->name('product-category.bulk_inactive');
         Route::resource('product-category', 'ProductCategoryController');
 
+        // Product Brand Routes
         Route::get('brand/export-to-excel', 'BrandController@export_to_excel')->name('brand.export_to_excel');
         Route::get('brand/export-to-csv', 'BrandController@export_to_csv')->name('brand.export_to_csv');
         Route::get('brand/export-to-pdf', 'BrandController@export_to_pdf')->name('brand.export_to_pdf');
@@ -54,6 +56,19 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::post('brand/bulk-active', 'BrandController@bulk_active')->name('brand.bulk_active');
         Route::post('brand/bulk-inactive', 'BrandController@bulk_inactive')->name('brand.bulk_inactive');
         Route::resource('brand', 'BrandController');
+
+        // Product Routes
+        Route::get('product/export-to-excel', 'ProductController@export_to_excel')->name('product.export_to_excel');
+        Route::get('product/export-to-csv', 'ProductController@export_to_csv')->name('product.export_to_csv');
+        Route::get('product/export-to-pdf', 'ProductController@export_to_pdf')->name('product.export_to_pdf');
+        Route::post('product/{id}/restore', 'ProductController@restore')->name('product.restore');
+        Route::post('pproduct/{id}/force-delete', 'ProductController@force_delete')->name('product.force_delete');
+        Route::post('product/bulk-delete', 'ProductController@bulk_delete')->name('product.bulk_delete');
+        Route::post('product/bulk-force-delete', 'ProductController@bulk_force_delete')->name('product.bulk_force_delete');
+        Route::post('product/bulk-restore', 'ProductController@bulk_restore')->name('product.bulk_restore');
+        Route::post('product/bulk-active', 'ProductController@bulk_active')->name('product.bulk_active');
+        Route::post('product/bulk-inactive', 'ProductController@bulk_inactive')->name('product.bulk_inactive');
+        Route::resource('product', 'ProductController');
 
     });
 });
