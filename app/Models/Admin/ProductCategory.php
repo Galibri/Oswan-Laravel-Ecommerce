@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin;
 
+use App\Models\Admin\Product;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -30,6 +31,11 @@ class ProductCategory extends Model
             return 'assets/150.jpg';
         }
         return $this->thumbnail;
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
     }
 
 }
