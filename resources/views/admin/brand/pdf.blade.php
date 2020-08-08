@@ -32,12 +32,12 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($productCategories as $productCategory)
+                                            @foreach($brands as $brand)
                                             <tr>
-                                                <td>{{ $productCategory->name }}</td>
-                                                <td>{{ $productCategory->slug }}</td>
+                                                <td>{{ $brand->name }}</td>
+                                                <td>{{ $brand->slug }}</td>
                                                 <td><span
-                                                        class="badge badge-@if($productCategory->status == true){{ 'success' }} @else{{ 'warning' }} @endif">{{ $productCategory->status_text }}</span>
+                                                        class="badge badge-@if($brand->status == true){{ 'success' }} @else{{ 'warning' }} @endif">{{ $brand->status_text }}</span>
                                                 </td>
                                             </tr>
                                             @endforeach

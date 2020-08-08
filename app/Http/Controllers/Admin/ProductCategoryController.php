@@ -244,6 +244,36 @@ class ProductCategoryController extends Controller
         ]);
     }
 
+    public function bulk_active(Request $request)
+    {
+        $item_ids = $request->input('item_ids');
+        foreach ($item_ids as $id) {
+            $productCategory = ProductCategory::withTrashed()->find($id);
+            if ($productCategory) {
+                $productCategory->status = true;
+                $productCategory->save();
+            }
+        }
+        return response()->json([
+            'message' => 'success'
+        ]);
+    }
+
+    public function bulk_inactive(Request $request)
+    {
+        $item_ids = $request->input('item_ids');
+        foreach ($item_ids as $id) {
+            $productCategory = ProductCategory::withTrashed()->find($id);
+            if ($productCategory) {
+                $productCategory->status = false;
+                $productCategory->save();
+            }
+        }
+        return response()->json([
+            'message' => 'success'
+        ]);
+    }
+
     public function export_to_excel()
     {
         return Excel::download(new ProductCategoryExport(), 'product-category.xlsx');

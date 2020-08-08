@@ -1,11 +1,11 @@
 @extends('layouts.admin')
 
-@section('meta-title', __('Add new category'))
+@section('meta-title', __('Add new brand'))
 
 @section('content')
 <div class="row">
     <div class="col-md-6 offset-md-3">
-        <form action="{{ route('admin.product-category.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.brand.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="card card-dark">
                 <div class="card-header">

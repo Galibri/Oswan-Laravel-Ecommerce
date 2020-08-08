@@ -38,6 +38,9 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::post('product-category/bulk-delete', 'ProductCategoryController@bulk_delete')->name('product-category.bulk_delete');
         Route::post('product-category/bulk-force-delete', 'ProductCategoryController@bulk_force_delete')->name('product-category.bulk_force_delete');
         Route::post('product-category/bulk-restore', 'ProductCategoryController@bulk_restore')->name('product-category.bulk_restore');
+
+        Route::post('product-category/bulk-active', 'ProductCategoryController@bulk_active')->name('product-category.bulk_active');
+        Route::post('product-category/bulk-inactive', 'ProductCategoryController@bulk_inactive')->name('product-category.bulk_inactive');
         Route::resource('product-category', 'ProductCategoryController');
 
         Route::get('brand/export-to-excel', 'BrandController@export_to_excel')->name('brand.export_to_excel');
@@ -48,6 +51,8 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::post('brand/bulk-delete', 'BrandController@bulk_delete')->name('brand.bulk_delete');
         Route::post('brand/bulk-force-delete', 'BrandController@bulk_force_delete')->name('brand.bulk_force_delete');
         Route::post('brand/bulk-restore', 'BrandController@bulk_restore')->name('brand.bulk_restore');
+        Route::post('brand/bulk-active', 'BrandController@bulk_active')->name('brand.bulk_active');
+        Route::post('brand/bulk-inactive', 'BrandController@bulk_inactive')->name('brand.bulk_inactive');
         Route::resource('brand', 'BrandController');
 
     });

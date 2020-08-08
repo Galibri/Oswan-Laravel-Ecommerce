@@ -10932,3 +10932,16 @@ a.text-dark:focus {
   max-width: 150px;
 }
 
+.btn-sm .fas,
+.btn-group-sm > .btn .fas,
+.btn-sm .far,
+.btn-group-sm > .btn .far {
+  font-size: 0.6rem;
+  line-height: 1;
+}
+
+.btn-sm,
+.btn-group-sm > .btn {
+  padding: 2px 8px !important;
+}
+

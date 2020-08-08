@@ -10,16 +10,6 @@
             <a href="{{ route('admin.product-category.create') }}"
                 class="btn btn-outline-info float-right btn-sm d-inline-block">{{ __('Add new') }}</a>
         </div>
-        <div class="page-links">
-            <div class="btn-group mb-3">
-                <a href="{{ route('admin.product-category.index') . '?type=all' }}"
-                    class="btn btn-sm btn-outline-dark {{ request()->get('type') == 'all' ? 'active' : ''  }}">{{ __('All') }}</a>
-                <a href="{{ route('admin.product-category.index') }}"
-                    class="btn btn-sm btn-outline-dark {{ request()->has('type') ? '' : 'active'  }}">{{ __('Published') }}</a>
-                <a href="{{ route('admin.product-category.index') . '?type=trash' }}"
-                    class="btn btn-sm btn-outline-dark {{ request()->get('type') == 'trash' ? 'active' : ''  }}">{{ __('Trashed') }}</a>
-            </div>
-        </div>
         <div class="card card-dark">
             <div class="card-body">
                 @if(count($productCategories) > 0)
@@ -32,20 +22,35 @@
                                     <option value="bulk-delete">{{ __('Delete') }}</option>
                                     <option value="bulk-force-delete">{{ __('Permanent Delete') }}</option>
                                     <option value="bulk-restore">{{ __('Restore') }}</option>
+                                    <option value="bulk-active">{{ __('Make active') }}</option>
+                                    <option value="bulk-inactive">{{ __('Make inactive') }}</option>
                                 </select>
                             </div>
-                            <button id="delete-action" class="btn btn-danger">{{ __('Submit') }}</button>
+                            <button id="delete-action" class="btn btn-dark">{{ __('Submit') }}</button>
                         </div>
                     </div>
-                    <div class="col text-right">
+                    <div class="col text-center">
                         <a href="{{ route('admin.product-category.export_to_excel') }}"
-                            class="btn btn-outline-primary">{{ __('Excel') }}</a>
+                            class="btn btn-success">{{ __('Excel') }}</a>
                         <a href="{{ route('admin.product-category.export_to_csv') }}"
-                            class="btn btn-outline-primary">{{ __('CSV') }}</a>
+                            class="btn btn-info">{{ __('CSV') }}</a>
                         <a href="{{ route('admin.product-category.export_to_pdf') }}"
-                            class="btn btn-outline-primary">{{ __('PDF') }}</a>
+                            class="btn btn-primary">{{ __('PDF') }}</a>
+                    </div>
+                    <div class="col text-right">
+                        <div class="page-links">
+                            <div class="btn-group mb-3">
+                                <a href="{{ route('admin.product-category.index') . '?type=all' }}"
+                                    class="btn btn-outline-dark {{ request()->get('type') == 'all' ? 'active' : ''  }}">{{ __('All') }}</a>
+                                <a href="{{ route('admin.product-category.index') }}"
+                                    class="btn btn-outline-dark {{ request()->has('type') ? '' : 'active'  }}">{{ __('Published') }}</a>
+                                <a href="{{ route('admin.product-category.index') . '?type=trash' }}"
+                                    class="btn btn-outline-dark {{ request()->get('type') == 'trash' ? 'active' : ''  }}">{{ __('Trashed') }}</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -75,25 +80,25 @@
                                 <form action="{{ route('admin.product-category.restore', $productCategory->id ) }}"
                                     class="d-inline-block" method="POST">
                                     @csrf
-                                    <button type="submit" class="btn btn-outline-danger btn-sm"><i
+                                    <button type="submit" class="btn btn-info btn-sm"><i
                                             class="fas fa-recycle"></i></button>
                                 </form>
                                 <form action="{{ route('admin.product-category.force_delete', $productCategory->id) }}"
                                     class="d-inline-block" method="POST">
                                     @csrf
-                                    <button type="submit" class="btn btn-outline-danger btn-sm"
+                                    <button type="submit" class="btn btn-danger btn-sm"
                                         title="{{ __('Permanently Delete') }}"><i class="fas fa-trash"></i></button>
                                 </form>
                                 @else
                                 <a href="{{ route('admin.product-category.show', $productCategory->id) }}"
-                                    class="btn btn-outline-success btn-sm"><i class="fas fa-eye"></i></a>
+                                    class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
                                 <a href="{{ route('admin.product-category.edit', $productCategory->id) }}"
-                                    class="btn btn-outline-warning btn-sm"><i class="fas fa-edit"></i></a>
+                                    class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
                                 <form action="{{ route('admin.product-category.destroy', $productCategory->id) }}"
                                     class="d-inline-block" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-outline-danger btn-sm"><i
+                                    <button type="submit" class="btn btn-danger btn-sm"><i
                                             class="fas fa-trash-alt"></i></button>
                                 </form>
                                 @endif
@@ -103,12 +108,16 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $productCategories->links() }}
                 @else
                 <div class="no-product-found">
                     <h3>{{ __('No product found.') }}</h3>
                 </div>
                 @endif
+            </div>
+            <div class="card-footer text-right">
+                <div class="d-inline-block">
+                    {{ $productCategories->links() }}
+                </div>
             </div>
         </div>
     </div>
@@ -185,6 +194,34 @@
                     
                     if(item_ids.length > 0) {
                         axios.post("{{ route('admin.product-category.bulk_restore') }}", {
+                            item_ids
+                        })
+                        .then(response => {
+                            if(response.data.message == 'success') {
+                                window.location.href = window.location.href
+                            }
+                        })
+                        .catch(error => console.log(error))
+                    }
+                    
+                } else if($('#dropdown-action').val() == 'bulk-active') {
+                    
+                    if(item_ids.length > 0) {
+                        axios.post("{{ route('admin.product-category.bulk_active') }}", {
+                            item_ids
+                        })
+                        .then(response => {
+                            if(response.data.message == 'success') {
+                                window.location.href = window.location.href
+                            }
+                        })
+                        .catch(error => console.log(error))
+                    }
+                    
+                } else if($('#dropdown-action').val() == 'bulk-inactive') {
+                    
+                    if(item_ids.length > 0) {
+                        axios.post("{{ route('admin.product-category.bulk_inactive') }}", {
                             item_ids
                         })
                         .then(response => {
