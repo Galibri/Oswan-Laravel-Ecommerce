@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6 offset-md-3">
         <div class="page-title bg-dark text-light p-3 mb-3 rounded">
             <h5 class="d-inline-block text-uppercase mb-0">{{ __('Add new product') }}</h5>
             <a href="{{ route('admin.product.index') }}"
