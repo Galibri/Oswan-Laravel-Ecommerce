@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Brand;
 use App\Models\Admin\Product;
+use App\Models\Admin\ProductCategory;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -33,7 +35,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $brands            = Brand::whereStatus(true)->latest()->get();
+        $productCategories = ProductCategory::whereStatus(true)->latest()->get();
+        return view('admin.product.create', compact('brands', 'productCategories'));
     }
 
     /**
@@ -44,7 +48,15 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title'       => 'required',
+            'price'       => 'required',
+            'category_id' => 'required',
+            'brand_id'    => 'required',
+            'qty'         => 'required'
+        ]);
+
+        dd(request()->all());
     }
 
     /**
