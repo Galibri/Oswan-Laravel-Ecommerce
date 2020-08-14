@@ -70,5 +70,8 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::post('product/bulk-inactive', 'ProductController@bulk_inactive')->name('product.bulk_inactive');
         Route::resource('product', 'ProductController');
 
+        // Product Gallery
+        Route::resource('/product/{product_id}/gallery', 'GalleryController');
+
     });
 });

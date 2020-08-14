@@ -57,6 +57,7 @@
                             <th>Name</th>
                             <th>Slug</th>
                             <th>Status</th>
+                            <th>Gallery</th>
                             <th style="width: 150px;">Actions</th>
                         </tr>
                     </thead>
@@ -73,6 +74,8 @@
                             <td><span
                                     class="badge badge-@if($product->status == true){{ 'success' }} @else{{ 'warning' }} @endif">{{ $product->status_text }}</span>
                             </td>
+                            <td><a href="{{ route('admin.gallery.create', $product->id) }}" class="btn btn-info"><i
+                                        class="far fa-images"></i></a></td>
                             <td>
                                 @if($product->deleted_at != null)
                                 <form action="{{ route('admin.product.restore', $product->id ) }}"

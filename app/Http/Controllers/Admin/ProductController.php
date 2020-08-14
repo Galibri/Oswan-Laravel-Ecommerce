@@ -57,6 +57,8 @@ class ProductController extends Controller
         ]);
 
         dd(request()->all());
+
+        $product = new Product();
     }
 
     /**
