@@ -1,3 +1,4 @@
+import flatpickr from "flatpickr";
 import Swal from 'sweetalert2'
 require('./bootstrap')
 
@@ -20,3 +21,13 @@ window.toaster = function (type = 'success', message = '') {
         title: message
     })
 }
+
+// Flatpicker
+window.flatpickr = flatpickr
+
+flatpickr('.datetime', {
+    altInput: true,
+    altFormat: "Y-m-d H:i",
+    dateFormat: "Y-m-d H:i",
+    enableTime: true,
+});

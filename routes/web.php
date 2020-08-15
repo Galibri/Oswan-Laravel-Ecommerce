@@ -73,5 +73,19 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
         // Product Gallery
         Route::resource('/product/{product_id}/gallery', 'GalleryController');
 
+        // Coupon Routes
+        // Product Routes
+        Route::get('coupon/export-to-excel', 'CouponController@export_to_excel')->name('coupon.export_to_excel');
+        Route::get('coupon/export-to-csv', 'CouponController@export_to_csv')->name('coupon.export_to_csv');
+        Route::get('coupon/export-to-pdf', 'CouponController@export_to_pdf')->name('coupon.export_to_pdf');
+        Route::post('coupon/{id}/restore', 'CouponController@restore')->name('coupon.restore');
+        Route::post('pcoupon/{id}/force-delete', 'CouponController@force_delete')->name('coupon.force_delete');
+        Route::post('coupon/bulk-delete', 'CouponController@bulk_delete')->name('coupon.bulk_delete');
+        Route::post('coupon/bulk-force-delete', 'CouponController@bulk_force_delete')->name('coupon.bulk_force_delete');
+        Route::post('coupon/bulk-restore', 'CouponController@bulk_restore')->name('coupon.bulk_restore');
+        Route::post('coupon/bulk-active', 'CouponController@bulk_active')->name('coupon.bulk_active');
+        Route::post('coupon/bulk-inactive', 'CouponController@bulk_inactive')->name('coupon.bulk_inactive');
+        Route::resource('coupon', 'CouponController');
+
     });
 });
