@@ -22,6 +22,35 @@
                         @enderror
                     </div>
                     <div class="form-group">
+                        <label for="rpm">{{ __('RPM') }}</label>
+                        <input type="text" name="rpm" id="rpm" class="form-control" value="{{ old('rpm') }}">
+                        @error('rpm')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="model">{{ __('Model') }}</label>
+                        <input type="text" name="model" id="model" class="form-control" value="{{ old('model') }}">
+                        @error('model')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="fuel_type">{{ __('Fuel Type') }}</label>
+                        <input type="text" name="fuel_type" id="fuel_type" class="form-control"
+                            value="{{ old('fuel_type') }}">
+                        @error('fuel_type')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="cc">{{ __('CC') }}</label>
+                        <input type="text" name="cc" id="cc" class="form-control" value="{{ old('cc') }}">
+                        @error('cc')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
                         <label for="description">{{ __('Description') }}</label>
                         <textarea name="description" id="description" cols="30" rows="5"
                             class="form-control textarea">{{ old('description') }}</textarea>

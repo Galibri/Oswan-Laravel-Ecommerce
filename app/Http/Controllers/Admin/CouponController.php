@@ -144,10 +144,10 @@ class CouponController extends Controller
 
     public function restore($id)
     {
-        $coupon = Brand::onlyTrashed()->find($id);
+        $coupon = Coupon::onlyTrashed()->find($id);
         if ($coupon) {
             if ($coupon->restore()) {
-                return redirect()->back()->with('success', __('Brand restored.'));
+                return redirect()->back()->with('success', __('Coupon restored.'));
             }
             return redirect()->back()->with('error', __('Please try again.'));
         }
@@ -156,14 +156,10 @@ class CouponController extends Controller
 
     public function force_delete($id)
     {
-        $coupon = Brand::onlyTrashed()->find($id);
+        $coupon = Coupon::onlyTrashed()->find($id);
         if ($coupon) {
-            if ($coupon->thumbnail) {
-                File::delete($coupon->thumbnail);
-            }
-
             if ($coupon->forceDelete()) {
-                return redirect()->back()->with('success', __('Brand permanently deleted.'));
+                return redirect()->back()->with('success', __('Coupon permanently deleted.'));
             }
             return redirect()->back()->with('error', __('Please try again.'));
         }
@@ -175,7 +171,7 @@ class CouponController extends Controller
     {
         $item_ids = $request->input('item_ids');
         foreach ($item_ids as $id) {
-            $coupon = Brand::find($id);
+            $coupon = Coupon::find($id);
             if ($coupon) {
                 $coupon->delete();
             }
@@ -189,11 +185,8 @@ class CouponController extends Controller
     {
         $item_ids = $request->input('item_ids');
         foreach ($item_ids as $id) {
-            $coupon = Brand::withTrashed()->find($id);
+            $coupon = Coupon::withTrashed()->find($id);
             if ($coupon) {
-                if ($coupon->thumbnail) {
-                    File::delete($coupon->thumbnail);
-                }
                 $coupon->forceDelete();
             }
         }
@@ -206,7 +199,7 @@ class CouponController extends Controller
     {
         $item_ids = $request->input('item_ids');
         foreach ($item_ids as $id) {
-            $coupon = Brand::onlyTrashed()->find($id);
+            $coupon = Coupon::onlyTrashed()->find($id);
             if ($coupon) {
                 $coupon->restore();
             }
@@ -220,7 +213,7 @@ class CouponController extends Controller
     {
         $item_ids = $request->input('item_ids');
         foreach ($item_ids as $id) {
-            $coupon = Brand::withTrashed()->find($id);
+            $coupon = Coupon::withTrashed()->find($id);
             if ($coupon) {
                 $coupon->status = true;
                 $coupon->save();
@@ -235,7 +228,7 @@ class CouponController extends Controller
     {
         $item_ids = $request->input('item_ids');
         foreach ($item_ids as $id) {
-            $coupon = Brand::withTrashed()->find($id);
+            $coupon = Coupon::withTrashed()->find($id);
             if ($coupon) {
                 $coupon->status = false;
                 $coupon->save();

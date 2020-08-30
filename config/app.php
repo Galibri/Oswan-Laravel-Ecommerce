@@ -229,7 +229,8 @@ return [
         'Validator'    => Illuminate\Support\Facades\Validator::class,
         'View'         => Illuminate\Support\Facades\View::class,
         'Excel'        => Maatwebsite\Excel\Facades\Excel::class,
-        'PDF'          => Barryvdh\DomPDF\Facade::class
+        'PDF'          => Barryvdh\DomPDF\Facade::class,
+        'Options'      => \App\Http\Controllers\Admin\OptionController::class
 
     ]
 

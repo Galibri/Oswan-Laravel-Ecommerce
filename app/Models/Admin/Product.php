@@ -43,4 +43,9 @@ class Product extends Model
     {
         return $this->belongsTo(ProductCategory::class);
     }
+
+    public function getFinalPriceAttribute()
+    {
+        return $this->selling_price == null ? $this->price : $this->selling_price;
+    }
 }

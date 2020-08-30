@@ -176,6 +176,28 @@
                             </ul>
                         </li>
 
+                        <li class="nav-header">Theme Options</li>
+                        <li
+                            class="nav-item has-treeview {{ request()->routeIs('admin.settings.home.*') ? 'menu-open' : '' }}">
+                            <a href="#"
+                                class="nav-link {{ request()->routeIs('admin.settings.home.*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-percentage"></i>
+                                <p>
+                                    Home Settings
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.settings.home.category') }}"
+                                        class="nav-link {{ request()->routeIs('admin.settings.home.category') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Categories</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

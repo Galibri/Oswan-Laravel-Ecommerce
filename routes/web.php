@@ -13,10 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::namespace ('Auth')->group(function () {
     Route::get('/login', 'LoginController@login_page')->name('login-form');
     Route::post('/login', 'LoginController@process_login')->name('login');
@@ -79,7 +75,7 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::get('coupon/export-to-csv', 'CouponController@export_to_csv')->name('coupon.export_to_csv');
         Route::get('coupon/export-to-pdf', 'CouponController@export_to_pdf')->name('coupon.export_to_pdf');
         Route::post('coupon/{id}/restore', 'CouponController@restore')->name('coupon.restore');
-        Route::post('pcoupon/{id}/force-delete', 'CouponController@force_delete')->name('coupon.force_delete');
+        Route::post('coupon/{id}/force-delete', 'CouponController@force_delete')->name('coupon.force_delete');
         Route::post('coupon/bulk-delete', 'CouponController@bulk_delete')->name('coupon.bulk_delete');
         Route::post('coupon/bulk-force-delete', 'CouponController@bulk_force_delete')->name('coupon.bulk_force_delete');
         Route::post('coupon/bulk-restore', 'CouponController@bulk_restore')->name('coupon.bulk_restore');
@@ -87,5 +83,14 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::post('coupon/bulk-inactive', 'CouponController@bulk_inactive')->name('coupon.bulk_inactive');
         Route::resource('coupon', 'CouponController');
 
+        Route::prefix('settings')->name('settings.')->group(function () {
+            Route::get('home-category', 'OptionController@home_category')->name('home.category');
+            Route::post('home-category', 'OptionController@home_category_store')->name('home.category.store');
+        });
+
     });
+});
+
+Route::name('frontend.')->namespace('Frontend')->group(function () {
+    Route::get('/', 'HomeController@home')->name('home');
 });

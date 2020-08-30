@@ -58,7 +58,48 @@ class ProductController extends Controller
 
         dd(request()->all());
 
-        $product = new Product();
+        $product        = new Product();
+        $product->title = $request->input('title');
+
+        $uniqueSlug = Str::slug($request->input('title'));
+        $next       = 2;
+        while (Product::where('slug', $uniqueSlug)->first()) {
+            $uniqueSlug = Str::slug($request->input('title')) . '-' . $next;
+            $next++;
+        }
+
+        $product->slug                = $uniqueSlug;
+        $product->product_category_id = $request->input('product_category_id');
+        $product->brand_id            = $request->input('brand_id');
+
+        $product->description       = $request->input('description');
+        $product->short_description = $request->input('short_description');
+        $product->price             = $request->input('price');
+        $product->selling_price     = $request->input('selling_price');
+
+        $product->rpm       = $request->input('rpm');
+        $product->model     = $request->input('model');
+        $product->fuel_type = $request->input('fuel_type');
+        $product->cc        = $request->input('cc');
+
+        $product->sku     = $request->input('sku');
+        $product->qty     = $request->input('qty');
+        $product->virtual = $request->input('virtual');
+        $product->status  = $request->input('status');
+
+        if ($request->has('thumbnail')) {
+            $thumbnail     = $request->file('thumbnail');
+            $path          = 'uploads/images/products';
+            $thumbnailName = time() . '_' . rand(100, 999) . '_' . $thumbnail->getClientOriginalName();
+            $thumbnail->move(public_path($path), $thumbnailName);
+            $product->thumbnail = $thumbnailName;
+        }
+
+        if ($product->save()) {
+
+            return redirect()->route('admin.product.index', $product->id)->with('success', __('Product'));
+        }
+        return redirect()->back()->with('error', __('Please try again.'));
     }
 
     /**
