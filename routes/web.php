@@ -93,4 +93,5 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
 
 Route::name('frontend.')->namespace('Frontend')->group(function () {
     Route::get('/', 'HomeController@home')->name('home');
+    Route::get('/product/{product:slug}', 'HomeController@single_product')->name('single.product');
 });
