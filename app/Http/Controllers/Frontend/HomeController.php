@@ -19,9 +19,6 @@ class HomeController extends Controller
     public function single_product(Product $product)
     {
         $relatedProducts = $product->product_category->products->except($product->id);
-        if (!$relatedProducts) {
-            $relatedProducts = [];
-        }
         return view('frontend.single-product.single', compact('product', 'relatedProducts'));
     }
 }

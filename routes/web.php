@@ -94,4 +94,8 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
 Route::name('frontend.')->namespace('Frontend')->group(function () {
     Route::get('/', 'HomeController@home')->name('home');
     Route::get('/product/{product:slug}', 'HomeController@single_product')->name('single.product');
+    Route::post('/add-to-cart', 'CartController@add_to_cart')->name('add-to-cart');
+    Route::post('/remove-from-cart', 'CartController@remove_from_cart')->name('remove-from-cart');
+    Route::get('/cart', 'CartController@cart_page')->name('cart-page');
+    Route::post('/update-cart', 'CartController@update_cart')->name('update-cart');
 });

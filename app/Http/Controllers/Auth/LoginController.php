@@ -34,6 +34,7 @@ class LoginController extends Controller
         }
 
         if (Auth::attempt($credentials, $remember)) {
+            // do something after login
             return redirect()->route('admin.dashboard')->with('success', __('Login successful'));
         }
 
